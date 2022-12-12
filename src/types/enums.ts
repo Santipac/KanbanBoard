@@ -4,3 +4,9 @@ export enum ColumnType {
   BLOCKED = 'Blocked',
   COMPLETED = 'Completed',
 }
+
+export enum UserStatus {
+  NOT_AUTHENTICATED = 'Not Authenticated',
+  PENDING = 'Pending',
+  AUTHENTICATED = 'Authenticated',
+}

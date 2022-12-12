@@ -24,7 +24,7 @@ const mockTask: TaskModel[] = [
   {
     id: '3',
     title: 'q onda',
-    column: ColumnType.COMPLETED,
+    column: ColumnType.IN_PROGRESS,
     color: 'green.300',
   },
 ];

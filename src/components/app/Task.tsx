@@ -47,7 +47,7 @@ export const Task: FC<TaskProps> = ({ index, task }) => {
         resize="none"
         minH={70}
         maxH={200}
-        focusBorderColor="none"
+        focusBorderColor="transparent"
         color="gray.700"
       />
     </Box>

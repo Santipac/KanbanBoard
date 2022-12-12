@@ -29,17 +29,13 @@ export const LoginPage = () => {
     <AuthLayout>
       <Stack spacing={4}>
         <FormControl id="email">
-          <FormLabel>Email address</FormLabel>
+          <FormLabel>Correo Eletrónico</FormLabel>
           <Input size="lg" type="email" />
         </FormControl>
         <FormControl id="password">
-          <FormLabel>Password</FormLabel>
+          <FormLabel>Contraseña</FormLabel>
           <InputGroup>
-            <Input
-              size="lg"
-              type={showPassword ? 'text' : 'password'}
-              placeholder="Password"
-            />
+            <Input size="lg" type={showPassword ? 'text' : 'password'} />
             <InputRightElement h="full">
               <IconButton
                 bgColor="transparent"
@@ -65,13 +61,14 @@ export const LoginPage = () => {
             _hover={{
               bg: 'blue.500',
             }}
+            mt={2}
           >
-            Sign in
+            Ingresar
           </Button>
           <Flex alignItems="center" gap={2}>
             <Divider />
             <Text fontWeight="semibold" color="gray.300">
-              Or
+              O
             </Text>
             <Divider />
           </Flex>
@@ -83,7 +80,7 @@ export const LoginPage = () => {
             gap={2}
           >
             <FcGoogle size="25px" />
-            Sign in With Google
+            Iniciar Sesión
           </Button>
         </Stack>
         <Link
@@ -92,7 +89,7 @@ export const LoginPage = () => {
           color={'blue.400'}
           textAlign="end"
         >
-          Register Now
+          No tienes una cuenta?
         </Link>
       </Stack>
     </AuthLayout>
