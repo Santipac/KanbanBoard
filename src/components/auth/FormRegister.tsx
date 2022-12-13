@@ -15,16 +15,18 @@ import { useState } from 'react';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 import { initialRegister, yupRegister } from '../../helpers';
+import { useAuthStore } from '../../hooks';
 export const FormRegister = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
-
+  const { startRegisterUser } = useAuthStore();
   const handleShowClick = () => setShowPassword(!showPassword);
   return (
     <Formik
       initialValues={initialRegister}
       validationSchema={yupRegister}
-      onSubmit={(values, { resetForm }) => {
+      onSubmit={async (values, { resetForm }) => {
         console.log(values);
+        startRegisterUser(values);
         resetForm();
       }}
     >
@@ -38,23 +40,34 @@ export const FormRegister = () => {
       }) => (
         <Form>
           <Box>
-            <FormControl id="firstName" isRequired pt="4">
-              <FormLabel htmlFor="name">Nombre</FormLabel>
+            <FormControl
+              id="displayName"
+              isRequired
+              pt="4"
+              isInvalid={!!errors.displayName && touched.displayName}
+            >
+              <FormLabel htmlFor="displayName">Nombre</FormLabel>
               <Field
                 as={Input}
-                name="name"
+                name="displayName"
                 size="lg"
                 type="text"
-                value={values.name}
+                value={values.displayName}
                 onChange={handleChange}
+                onBlur={handleBlur}
               />
               <Text color="red.400" mt={2}>
-                <ErrorMessage name="name" />
+                <ErrorMessage name="displayName" />
               </Text>
             </FormControl>
           </Box>
 
-          <FormControl id="email" isRequired pt="4">
+          <FormControl
+            id="email"
+            isRequired
+            pt="4"
+            isInvalid={!!errors.email && touched.email}
+          >
             <FormLabel htmlFor="email">Correo Electrónico</FormLabel>
             <Field
               as={Input}
@@ -63,12 +76,18 @@ export const FormRegister = () => {
               type="email"
               value={values.email}
               onChange={handleChange}
+              onBlur={handleBlur}
             />
             <Text color="red.400" mt={2}>
               <ErrorMessage name="email" />
             </Text>
           </FormControl>
-          <FormControl id="password" isRequired pt="4">
+          <FormControl
+            id="password"
+            isRequired
+            pt="4"
+            isInvalid={!!errors.password && touched.password}
+          >
             <FormLabel htmlFor="password">Contraseña</FormLabel>
             <InputGroup>
               <Field
@@ -78,6 +97,7 @@ export const FormRegister = () => {
                 type={showPassword ? 'text' : 'password'}
                 value={values.password}
                 onChange={handleChange}
+                onBlur={handleBlur}
               />
               <InputRightElement h={'full'}>
                 <IconButton
@@ -100,7 +120,12 @@ export const FormRegister = () => {
               <ErrorMessage name="password" />
             </Text>
           </FormControl>
-          <FormControl id="confirmedPassword" isRequired pt="4">
+          <FormControl
+            id="confirmedPassword"
+            isRequired
+            pt="4"
+            isInvalid={!!errors.confirmedPassword && touched.confirmedPassword}
+          >
             <FormLabel htmlFor="confirmedPassword">
               Repetir Contraseña
             </FormLabel>
@@ -111,6 +136,7 @@ export const FormRegister = () => {
               type={'password'}
               value={values.confirmedPassword}
               onChange={handleChange}
+              onBlur={handleBlur}
             />
             <Text color="red.400" mt={2}>
               <ErrorMessage name="confirmedPassword" />

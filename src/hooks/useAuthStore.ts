@@ -1,20 +1,27 @@
-import { GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/auth';
+import {
+  createUserWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  signOut,
+  updateProfile,
+} from 'firebase/auth';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { FirebaseAuth } from '../firebase/config';
 import { RootState } from '../store';
 import { checkingUser, loginUser, logoutUser } from '../store/user/userSlice';
-
 import { UserStatus } from '../types/enums';
+import { ILogin, IRegister } from '../types/models';
 
-export const useUserStore = () => {
+export const useAuthStore = () => {
   const { status, displayName, photoURL, uid } = useSelector(
     (state: RootState) => state.user
   );
-  const provider = new GoogleAuthProvider();
   const dispatch = useDispatch();
+  const provider = new GoogleAuthProvider();
 
-  const startLoginUser = async () => {
+  const startLoginWithGoogle = async () => {
     try {
       dispatch(checkingUser());
       const result = await signInWithPopup(FirebaseAuth, provider);
@@ -32,6 +39,59 @@ export const useUserStore = () => {
       console.log(error);
     }
   };
+  const startRegisterUser = async ({
+    displayName,
+    email,
+    password,
+  }: IRegister) => {
+    try {
+      dispatch(checkingUser());
+      const resp = await createUserWithEmailAndPassword(
+        FirebaseAuth,
+        email,
+        password
+      );
+      if (FirebaseAuth.currentUser === null) return;
+      await updateProfile(FirebaseAuth.currentUser, { displayName });
+      const { photoURL, uid } = resp.user;
+      dispatch(
+        loginUser({
+          uid,
+          photoURL,
+          displayName,
+          email,
+          status: UserStatus.AUTHENTICATED,
+        })
+      );
+    } catch (error) {
+      console.log(error);
+      dispatch(logoutUser());
+    }
+  };
+
+  const startLoginWithEmailPassword = async ({ email, password }: ILogin) => {
+    try {
+      dispatch(checkingUser());
+      const resp = await signInWithEmailAndPassword(
+        FirebaseAuth,
+        email,
+        password
+      );
+      const { uid, photoURL, displayName } = resp.user;
+      dispatch(
+        loginUser({
+          uid,
+          email,
+          photoURL,
+          displayName,
+          status: UserStatus.AUTHENTICATED,
+        })
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const startSignOutUser = async () => {
     try {
       dispatch(checkingUser());
@@ -42,8 +102,10 @@ export const useUserStore = () => {
     }
   };
   return {
-    startLoginUser,
+    startLoginWithGoogle,
+    startLoginWithEmailPassword,
     startSignOutUser,
+    startRegisterUser,
     status,
     displayName,
     photoURL,
