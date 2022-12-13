@@ -31,12 +31,12 @@ export const App = () => {
       >
         <Container maxWidth="container.xl" px={4} py={10}>
           <SimpleGrid
-            columns={{ base: 1, md: 4 }}
-            spacing={{ base: 16, md: 4 }}
+            columns={{ base: 1, md: 3 }}
+            spacing={{ base: 16, md: 3 }}
           >
             <Column column={ColumnType.TO_DO} />
             <Column column={ColumnType.IN_PROGRESS} />
-            <Column column={ColumnType.BLOCKED} />
+
             <Column column={ColumnType.COMPLETED} />
           </SimpleGrid>
         </Container>

@@ -14,7 +14,7 @@ export const Task: FC<TaskProps> = ({ index, task }) => {
       role="group"
       position="relative"
       rounded="lg"
-      w={200}
+      w="full"
       pl={3}
       pr={7}
       pt={3}

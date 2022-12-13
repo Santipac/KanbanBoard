@@ -16,10 +16,12 @@ import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 import { initialRegister, yupRegister } from '../../helpers';
 import { useAuthStore } from '../../hooks';
+import { useNavigate } from 'react-router-dom';
 export const FormRegister = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const { startRegisterUser } = useAuthStore();
   const handleShowClick = () => setShowPassword(!showPassword);
+  const navigate = useNavigate();
   return (
     <Formik
       initialValues={initialRegister}
@@ -28,6 +30,7 @@ export const FormRegister = () => {
         console.log(values);
         startRegisterUser(values);
         resetForm();
+        navigate('/');
       }}
     >
       {({

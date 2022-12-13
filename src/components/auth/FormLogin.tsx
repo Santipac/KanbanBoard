@@ -14,7 +14,7 @@ import {
   Divider,
   Link,
 } from '@chakra-ui/react';
-import { Link as LinkRouter } from 'react-router-dom';
+import { Link as LinkRouter, useNavigate } from 'react-router-dom';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { initialLogin, yupLogin } from '../../helpers';
 import { FcGoogle } from 'react-icons/fc';
@@ -24,8 +24,8 @@ import { useAuthStore } from '../../hooks';
 export const FormLogin = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const handleShowClick = () => setShowPassword(!showPassword);
-
   const { startLoginWithGoogle, startLoginWithEmailPassword } = useAuthStore();
+  const navigate = useNavigate();
 
   return (
     <Formik
@@ -35,6 +35,7 @@ export const FormLogin = () => {
         console.log(values);
         startLoginWithEmailPassword(values);
         resetForm();
+        navigate('/');
       }}
     >
       {({

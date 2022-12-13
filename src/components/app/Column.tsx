@@ -14,7 +14,6 @@ import { Task } from './Task';
 const ColumnColorScheme: Record<ColumnType, string> = {
   Todo: 'gray',
   'In Progress': 'blue',
-  Blocked: 'red',
   Completed: 'green',
 };
 

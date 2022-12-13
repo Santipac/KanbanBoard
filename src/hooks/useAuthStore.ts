@@ -8,6 +8,7 @@ import {
 } from 'firebase/auth';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { FirebaseAuth } from '../firebase/config';
 import { RootState } from '../store';
 import { checkingUser, loginUser, logoutUser } from '../store/user/userSlice';
@@ -15,11 +16,12 @@ import { UserStatus } from '../types/enums';
 import { ILogin, IRegister } from '../types/models';
 
 export const useAuthStore = () => {
-  const { status, displayName, photoURL, uid } = useSelector(
+  const { status, displayName, photoURL, uid, email } = useSelector(
     (state: RootState) => state.user
   );
   const dispatch = useDispatch();
   const provider = new GoogleAuthProvider();
+  const navigate = useNavigate();
 
   const startLoginWithGoogle = async () => {
     try {
@@ -35,6 +37,7 @@ export const useAuthStore = () => {
           status: UserStatus.AUTHENTICATED,
         })
       );
+      navigate('/');
     } catch (error) {
       console.log(error);
     }
@@ -63,9 +66,9 @@ export const useAuthStore = () => {
           status: UserStatus.AUTHENTICATED,
         })
       );
+      navigate('/');
     } catch (error) {
       console.log(error);
-      dispatch(logoutUser());
     }
   };
 
@@ -87,6 +90,7 @@ export const useAuthStore = () => {
           status: UserStatus.AUTHENTICATED,
         })
       );
+      navigate('/');
     } catch (error) {
       console.log(error);
     }
@@ -97,6 +101,7 @@ export const useAuthStore = () => {
       dispatch(checkingUser());
       await signOut(FirebaseAuth);
       dispatch(logoutUser());
+      navigate('/auth');
     } catch (error) {
       console.log(error);
     }
@@ -110,5 +115,6 @@ export const useAuthStore = () => {
     displayName,
     photoURL,
     uid,
+    email,
   };
 };
