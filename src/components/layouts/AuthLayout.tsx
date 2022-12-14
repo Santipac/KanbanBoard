@@ -9,7 +9,8 @@ export const AuthLayout: FC<Props> = ({ children }) => {
     <Box
       w="full"
       minH="100vh"
-      bg="gray.100"
+      _light={{ backgroundColor: 'gray.100' }}
+      _dark={{ backgroundColor: 'gray.900' }}
       padding={5}
       display="flex"
       alignItems="center"
@@ -22,6 +23,8 @@ export const AuthLayout: FC<Props> = ({ children }) => {
         bg={useColorModeValue('white', 'gray.700')}
         boxShadow={'lg'}
         p={6}
+        _light={{ backgroundColor: 'white' }}
+        _dark={{ backgroundColor: 'blackAlpha.400' }}
       >
         {children}
       </Box>

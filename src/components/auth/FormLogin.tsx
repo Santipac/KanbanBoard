@@ -124,6 +124,8 @@ export const FormLogin = () => {
               display="flex"
               gap={2}
               onClick={() => startLoginWithGoogle()}
+              color="black"
+              _hover={{ backgroundColor: 'whiteAlpha.800' }}
             >
               <FcGoogle size="25px" />
               Iniciar Sesión

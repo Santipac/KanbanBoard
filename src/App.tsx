@@ -5,24 +5,25 @@ import { SideBar } from './components/app/ui/SideBar';
 import { ColumnType } from './types/enums';
 
 export const App = () => {
-  const [collapse, setCollapse] = useState<boolean>(true);
   return (
     <Stack
       direction={{ base: 'column', lg: 'row' }}
       w="full"
       minH="100vh"
-      bg="gray.100"
+      _light={{ backgroundColor: 'gray.100' }}
+      _dark={{ backgroundColor: 'gray.900' }}
       padding={5}
       display="flex"
       alignItems="center"
     >
-      <SideBar collapse={collapse} setCollapse={setCollapse} />
+      <SideBar />
 
       <Flex
         as="main"
         w="full"
         minH="90vh"
-        bg="white"
+        _light={{ backgroundColor: 'white' }}
+        _dark={{ backgroundColor: 'blackAlpha.500' }}
         alignItems="center"
         justifyContent="center"
         flexDirection="column"
