@@ -8,8 +8,11 @@ import {
 } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
 import { ColumnType } from '../../types/enums';
-import { TaskModel } from '../../types/models';
 import { Task } from './Task';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store';
+import { useTaskStore } from '../../hooks/useTaskStore';
+import { v4 as uuid } from 'uuid';
 
 const ColumnColorScheme: Record<ColumnType, string> = {
   Todo: 'gray',
@@ -17,22 +20,11 @@ const ColumnColorScheme: Record<ColumnType, string> = {
   Completed: 'green',
 };
 
-const mockTask: TaskModel[] = [
-  { id: '1', title: 'hola', column: ColumnType.TO_DO, color: 'gray.300' },
-  { id: '2', title: 'hey', column: ColumnType.COMPLETED, color: 'blue.300' },
-  {
-    id: '3',
-    title: 'q onda',
-    column: ColumnType.IN_PROGRESS,
-    color: 'green.300',
-  },
-];
-
 export const Column = ({ column }: { column: ColumnType }) => {
-  const ColumnTasks = mockTask.map((task, index) => (
-    <Task key={task.id} index={index} task={task} />
-  ));
+  const tasks = useSelector((state: RootState) => state.task);
+  const taskColumn = tasks.filter(task => task.column === column);
 
+  const { startCreateTask } = useTaskStore();
   return (
     <Box>
       <Heading fontSize="md" mb={4} letterSpacing="wide">
@@ -56,6 +48,14 @@ export const Column = ({ column }: { column: ColumnType }) => {
         colorScheme="black"
         aria-label="add-task"
         icon={<AddIcon />}
+        onClick={() =>
+          startCreateTask({
+            id: uuid(),
+            title: 'Task 1',
+            color: 'green',
+            column,
+          })
+        }
       />
       <Stack
         direction={{ base: 'row', md: 'column' }}
@@ -68,7 +68,9 @@ export const Column = ({ column }: { column: ColumnType }) => {
         boxShadow="md"
         overflow="auto"
       >
-        {ColumnTasks}
+        {taskColumn.map((task, index) => (
+          <Task task={task} index={index} key={task.id} />
+        ))}
       </Stack>
     </Box>
   );
