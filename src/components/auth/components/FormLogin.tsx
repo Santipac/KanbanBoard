@@ -16,10 +16,10 @@ import {
 } from '@chakra-ui/react';
 import { Link as LinkRouter, useNavigate } from 'react-router-dom';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
-import { initialLogin, yupLogin } from '../../helpers';
+import { initialLogin, yupLogin } from '../../../helpers';
 import { FcGoogle } from 'react-icons/fc';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
-import { useAuthStore } from '../../hooks';
+import { useAuthStore } from '../../../hooks';
 
 export const FormLogin = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);

@@ -1,16 +1,23 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { App } from '../App';
-import { LoginPage, RegisterPage } from '../components/auth';
+import { AuthRouter } from '../components/auth/router';
+import { useAuthStore } from '../hooks';
+import { UserStatus } from '../types/enums';
+
 export const AppRouter = () => {
+  const { status } = useAuthStore();
   return (
     <Routes>
-      <Route path="/" element={<App />} />
-      <Route path="/*" element={<Navigate to="/" />} />
-      <Route path="/auth" element={<LoginPage />} />
-      <Route path="/auth/register" element={<RegisterPage />} />
-      <Route path="/auth/*" element={<Navigate to="/auth" />} />
-      <Route path="*" element={<Navigate to="/" />} />
+      {status === UserStatus.AUTHENTICATED ? (
+        <>
+          <Route path="/" element={<App />} />
+          <Route path="/*" element={<Navigate to="/" />} />
+        </>
+      ) : (
+        <Route path="auth/*" element={<AuthRouter />} />
+      )}
+      <Route path="*" element={<Navigate to="/auth/login" />} />
     </Routes>
   );
 };
