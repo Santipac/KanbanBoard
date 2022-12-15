@@ -1,7 +1,7 @@
 import { Box, Container, Flex, SimpleGrid, Stack } from '@chakra-ui/react';
 import { useState } from 'react';
 import { Column } from './components/app/Column';
-import { SideBar } from './components/app/ui/SideBar';
+import { SideBar, MenuMobile } from './components/app/ui';
 import { ColumnType } from './types/enums';
 
 export const App = () => {
@@ -31,6 +31,7 @@ export const App = () => {
         borderRadius="3xl"
       >
         <Container maxWidth="container.xl" px={4} py={10}>
+          <MenuMobile />
           <SimpleGrid
             columns={{ base: 1, md: 3 }}
             spacing={{ base: 16, md: 3 }}

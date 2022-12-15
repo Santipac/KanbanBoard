@@ -1,17 +1,12 @@
-import { HamburgerIcon } from '@chakra-ui/icons';
 import {
   Avatar,
   Box,
-  Button,
   Flex,
-  Heading,
   IconButton,
-  Switch,
-  Text,
   Tooltip,
   useColorMode,
 } from '@chakra-ui/react';
-import React, { FC } from 'react';
+import  { FC } from 'react';
 import { useAuthStore } from '../../../hooks';
 import { IoLogOutOutline, IoMoon, IoSunnyOutline } from 'react-icons/io5';
 
