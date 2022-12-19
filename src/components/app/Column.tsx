@@ -7,33 +7,23 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
-import { ColumnType } from '../../types/enums';
+import { FC } from 'react';
+import { useTaskStore } from '../../hooks';
 import { Task } from './Task';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../store';
-import { useTaskStore } from '../../hooks/useTaskStore';
-import { v4 as uuid } from 'uuid';
+import { ColumnType } from '../../types/enums';
 
-const ColumnColorScheme: Record<ColumnType, string> = {
-  Todo: 'gray',
-  'In Progress': 'blue',
-  Completed: 'green',
-};
+interface Props {
+  column: ColumnType;
+  color: string;
+}
+export const Column: FC<Props> = ({ column, color }) => {
+  const { tasks, startCreatingTask } = useTaskStore();
+  const tasksFiltered = tasks.filter(task => task.column === column);
 
-export const Column = ({ column }: { column: ColumnType }) => {
-  const tasks = useSelector((state: RootState) => state.task);
-  const taskColumn = tasks.filter(task => task.column === column);
-
-  const { startCreateTask } = useTaskStore();
   return (
     <Box>
       <Heading fontSize="md" mb={4} letterSpacing="wide">
-        <Badge
-          px={2}
-          py={2}
-          rounded="lg"
-          colorScheme={ColumnColorScheme[column]}
-        >
+        <Badge px={2} py={2} rounded="lg" colorScheme={color}>
           {column}
         </Badge>
       </Heading>
@@ -48,15 +38,9 @@ export const Column = ({ column }: { column: ColumnType }) => {
         colorScheme="black"
         aria-label="add-task"
         icon={<AddIcon />}
-        onClick={() =>
-          startCreateTask({
-            id: uuid(),
-            title: 'Task 1',
-            color: 'green',
-            column,
-          })
-        }
+        onClick={() => startCreatingTask(column)}
       />
+
       <Stack
         direction={{ base: 'row', md: 'column' }}
         h={{ base: 300, md: 600 }}
@@ -66,10 +50,9 @@ export const Column = ({ column }: { column: ColumnType }) => {
         bgColor={useColorModeValue('gray.50', 'gray.900')}
         rounded="lg"
         boxShadow="md"
-        overflow="auto"
       >
-        {taskColumn.map((task, index) => (
-          <Task task={task} index={index} key={task.id} />
+        {tasksFiltered.map(task => (
+          <Task key={task.id} task={task} />
         ))}
       </Stack>
     </Box>

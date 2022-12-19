@@ -25,3 +25,8 @@ export interface IRegister {
   email: string;
   password: string;
 }
+
+export interface DropTask {
+  id: string;
+  destination: string;
+}

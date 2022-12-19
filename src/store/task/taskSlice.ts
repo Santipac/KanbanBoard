@@ -1,8 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { string } from 'yup';
-import { ColumnType } from '../../types/enums';
 import { TaskModel } from '../../types/models';
-
 const initialState: TaskModel[] = [];
 
 const taskSlice = createSlice({

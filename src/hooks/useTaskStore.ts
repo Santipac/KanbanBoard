@@ -1,19 +1,21 @@
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { v4 as uuid } from 'uuid';
 import { RootState } from '../store';
 import { createTask, deleteTask } from '../store/task/taskSlice';
-import { TaskModel } from '../types/models';
+import { ColumnType } from '../types/enums';
 
 export const useTaskStore = () => {
-  const tasks = useSelector((state: RootState) => state.task);
   const dispatch = useDispatch();
-  const startCreateTask = (task: TaskModel) => {
-    dispatch(createTask(task));
+  const tasks = useSelector((state: RootState) => state.task);
+
+  const startCreatingTask = (column: ColumnType) => {
+    dispatch(createTask({ title: '', column, id: uuid(), color: 'green' }));
   };
 
-  const startDeleteTask = (id: string) => {
+  const startDeletingTask = (id: string) => {
     dispatch(deleteTask(id));
   };
 
-  return { startCreateTask, startDeleteTask };
+  return { tasks, startCreatingTask, startDeletingTask };
 };

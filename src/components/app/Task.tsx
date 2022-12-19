@@ -1,34 +1,45 @@
-import { DeleteIcon } from '@chakra-ui/icons';
-import { Box, IconButton, Textarea } from '@chakra-ui/react';
+import { CheckCircleIcon, DeleteIcon } from '@chakra-ui/icons';
+import { Box, Flex, IconButton, Textarea } from '@chakra-ui/react';
 import { Formik } from 'formik';
-import { FC, useEffect, useState } from 'react';
-import { pickChakraRandomColor } from '../../helpers/RandomColor';
-import { useTaskStore } from '../../hooks/useTaskStore';
+import { FC, useState } from 'react';
+import { pickChakraRandomColor } from '../../helpers';
+import { useTaskStore } from '../../hooks';
 import { TaskModel } from '../../types/models';
 
-type TaskProps = {
-  index: number;
+interface Props {
   task: TaskModel;
-};
+}
 
-export const Task: FC<TaskProps> = ({ index, task }) => {
-  const { startDeleteTask } = useTaskStore();
+export const Task: FC<Props> = ({ task }) => {
   const [bgColor, setBgColor] = useState<string>(pickChakraRandomColor('.400'));
-
+  const { startDeletingTask } = useTaskStore();
   return (
     <Box
       role="group"
-      position="relative"
+      minH={100}
       rounded="lg"
       w="full"
-      pl={3}
-      pr={7}
-      pt={3}
-      pb={1}
+      p={4}
       boxShadow="xl"
-      cursor="grab"
+      position="relative"
       bgColor={bgColor}
     >
+      <IconButton
+        position="absolute"
+        top={0}
+        right={10}
+        zIndex={100}
+        aria-label="complete-task"
+        size="md"
+        colorScheme="solid"
+        _light={{ color: 'gray.700' }}
+        _dark={{ color: 'white' }}
+        icon={<CheckCircleIcon />}
+        opacity={0}
+        _groupHover={{
+          opacity: 1,
+        }}
+      />
       <IconButton
         position="absolute"
         top={0}
@@ -37,41 +48,47 @@ export const Task: FC<TaskProps> = ({ index, task }) => {
         aria-label="delete-task"
         size="md"
         colorScheme="solid"
-        color={'gray.700'}
+        _light={{ color: 'gray.700' }}
+        _dark={{ color: 'white' }}
         icon={<DeleteIcon />}
         opacity={0}
         _groupHover={{
           opacity: 1,
         }}
-        onClick={() => startDeleteTask(task.id)}
+        onClick={() => startDeletingTask(task.id)}
       />
-      <Formik
-        initialValues={{ title: '' }}
-        onSubmit={values => {
-          console.log(values);
-        }}
-      >
-        {({ handleBlur, handleChange, values }) => (
-          <Textarea
-            name="title"
-            onChange={handleChange}
-            onBlur={event => {
-              handleBlur(event);
-              console.log(values.title);
-            }}
-            defaultValue={task.title}
-            fontWeight="semibold"
-            cursor="inherit"
-            border="none"
-            p={0}
-            resize="none"
-            minH={70}
-            maxH={200}
-            focusBorderColor="transparent"
-            color="whiteAlpha.900"
-          />
-        )}
-      </Formik>
+      <Flex w="full" h="full" justifyContent="center" p={0} m={0}>
+        <Formik
+          initialValues={{ title: '' }}
+          onSubmit={values => {
+            console.log(values);
+          }}
+        >
+          {({ handleBlur, handleChange, values }) => (
+            <Textarea
+              name="title"
+              onChange={handleChange}
+              onBlur={event => {
+                handleBlur(event);
+                console.log(values.title);
+              }}
+              defaultValue={task.title}
+              fontWeight="semibold"
+              cursor="inherit"
+              border="none"
+              p={0}
+              resize="none"
+              minH="min-content"
+              maxH={200}
+              focusBorderColor="transparent"
+              _light={{ color: 'black' }}
+              _dark={{ color: 'white' }}
+              placeholder="Escribe algo"
+              _placeholder={{ color: 'blackAlpha.500' }}
+            />
+          )}
+        </Formik>
+      </Flex>
     </Box>
   );
 };
