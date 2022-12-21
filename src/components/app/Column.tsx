@@ -1,30 +1,32 @@
+import React from 'react';
+import { v4 as uuid } from 'uuid';
+import { FC } from 'react';
+import { EntryStatus } from '../../interfaces';
+import { EntryList } from './EntryList';
 import {
   Badge,
   Box,
   Heading,
   IconButton,
-  Stack,
   useColorModeValue,
 } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
-import { FC } from 'react';
-import { useTaskStore } from '../../hooks';
-import { Task } from './Task';
-import { ColumnType } from '../../types/enums';
+import { useDispatch } from 'react-redux';
+import { createEntry } from '../../store/entries/entrySlice';
+import { pickChakraRandomColor } from '../../helpers';
 
 interface Props {
-  column: ColumnType;
   color: string;
+  status: EntryStatus;
 }
-export const Column: FC<Props> = ({ column, color }) => {
-  const { tasks, startCreatingTask } = useTaskStore();
-  const tasksFiltered = tasks.filter(task => task.column === column);
 
+export const Column: FC<Props> = ({ color, status }) => {
+  const dispatch = useDispatch();
   return (
     <Box>
       <Heading fontSize="md" mb={4} letterSpacing="wide">
         <Badge px={2} py={2} rounded="lg" colorScheme={color}>
-          {column}
+          {status}
         </Badge>
       </Heading>
       <IconButton
@@ -38,23 +40,20 @@ export const Column: FC<Props> = ({ column, color }) => {
         colorScheme="black"
         aria-label="add-task"
         icon={<AddIcon />}
-        onClick={() => startCreatingTask(column)}
+        onClick={() =>
+          dispatch(
+            createEntry({
+              _id: uuid(),
+              status,
+              color: pickChakraRandomColor('.400'),
+              description: '',
+              createdAt: Date.now(),
+            })
+          )
+        }
       />
 
-      <Stack
-        direction={{ base: 'row', md: 'column' }}
-        h={{ base: 300, md: 600 }}
-        p={4}
-        mt={2}
-        spacing={4}
-        bgColor={useColorModeValue('gray.50', 'gray.900')}
-        rounded="lg"
-        boxShadow="md"
-      >
-        {tasksFiltered.map(task => (
-          <Task key={task.id} task={task} />
-        ))}
-      </Stack>
+      <EntryList status={status} />
     </Box>
   );
 };

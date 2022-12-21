@@ -1,11 +1,4 @@
-import { ColumnType, UserStatus } from './enums';
-
-export interface TaskModel {
-  id: string;
-  title: string;
-  column: ColumnType;
-  color: string;
-}
+import { UserStatus } from './enums';
 
 export interface IUser {
   uid: string | null;
@@ -24,9 +17,4 @@ export interface IRegister {
   displayName: string;
   email: string;
   password: string;
-}
-
-export interface DropTask {
-  id: string;
-  destination: string;
 }
