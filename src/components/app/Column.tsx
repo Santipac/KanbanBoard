@@ -20,7 +20,7 @@ interface Props {
 
 export const Column: FC<Props> = ({ color, status }) => {
   const dispatch = useDispatch();
-  const { startCreatingTasks } = useEntryStore();
+  const { startCreatingEntry } = useEntryStore();
   return (
     <Box>
       <Heading fontSize="md" mb={4} letterSpacing="wide">
@@ -39,7 +39,7 @@ export const Column: FC<Props> = ({ color, status }) => {
         colorScheme="black"
         aria-label="add-task"
         icon={<AddIcon />}
-        onClick={() => startCreatingTasks(status)}
+        onClick={() => startCreatingEntry(status)}
       />
 
       <EntryList status={status} />

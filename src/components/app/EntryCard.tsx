@@ -5,9 +5,9 @@ import { Formik } from 'formik';
 import { DragEvent, FC } from 'react';
 import { useDispatch } from 'react-redux';
 import { Entry } from '../../interfaces';
-import { deleteEntry } from '../../store/entries/entrySlice';
 import { endDragging, startDragging } from '../../store/ui/uiSlice';
 import { motion as m, PanInfo } from 'framer-motion';
+import { useEntryStore } from '../../hooks/useEntryStore';
 
 interface Props {
   entry: Entry;
@@ -15,9 +15,9 @@ interface Props {
 
 export const EntryCard: FC<Props> = ({ entry }) => {
   const dispatch = useDispatch();
-
+  const { startDeletingEntry } = useEntryStore();
   const onDragStart = (event: DragEvent<HTMLDivElement>) => {
-    event.dataTransfer.setData('text', entry._id);
+    event.dataTransfer.setData('text', entry.id);
     dispatch(startDragging());
   };
 
@@ -56,7 +56,7 @@ export const EntryCard: FC<Props> = ({ entry }) => {
           _groupHover={{
             opacity: 1,
           }}
-          onClick={() => dispatch(deleteEntry(entry._id))}
+          onClick={() => startDeletingEntry(entry.id)}
         />
         <Flex w="full" h="full" justifyContent="center" pt={3} m={0}>
           <Formik

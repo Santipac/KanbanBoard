@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEntryStore } from '../../hooks';
 import { EntryStatus } from '../../interfaces';
 import { RootState } from '../../store';
-import { updateEntry } from '../../store/entries/entrySlice';
 import { endDragging } from '../../store/ui/uiSlice';
 import { EntryCard } from './EntryCard';
 
@@ -27,7 +26,7 @@ export const EntryList: FC<Props> = ({ status }) => {
   };
   const onDropEntry = (event: DragEvent<HTMLDivElement>) => {
     const id = event.dataTransfer.getData('text');
-    startUpdatingStatus({ _id: id, status });
+    startUpdatingStatus({ id, status });
     dispatch(endDragging());
   };
   return (
@@ -50,7 +49,7 @@ export const EntryList: FC<Props> = ({ status }) => {
       _dark={{ borderColor: ' gray.100' }}
     >
       {entriesByStatus.map(entry => (
-        <EntryCard key={entry._id} entry={entry} />
+        <EntryCard key={entry.id} entry={entry} />
       ))}
     </Stack>
   );
