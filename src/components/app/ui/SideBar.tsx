@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   Avatar,
   Box,
@@ -7,10 +8,11 @@ import {
   useColorMode,
 } from '@chakra-ui/react';
 import { FC } from 'react';
-
+import { useAuthStore } from '../../../hooks';
 import { IoLogOutOutline, IoMoon, IoSunnyOutline } from 'react-icons/io5';
 
 export const SideBar: FC = () => {
+  const { displayName, photoURL, email, startSignOutUser } = useAuthStore();
   const { colorMode, toggleColorMode } = useColorMode();
   return (
     <Flex
@@ -37,10 +39,10 @@ export const SideBar: FC = () => {
       >
         <Box w="full">
           <Flex alignItems="center" gap={8} flex={1} flexDirection="column">
-            <Tooltip label="Santiago Pacini">
+            <Tooltip label={displayName}>
               <Avatar
-                name="santiago"
-                src={''}
+                name={displayName!}
+                src={`${photoURL}`}
                 boxShadow="lg"
                 referrerPolicy="no-referrer"
               />
@@ -73,6 +75,7 @@ export const SideBar: FC = () => {
               _hover={{ bgColor: 'transparent' }}
               _focus={{ bgColor: 'transparent' }}
               aria-label="Logout button"
+              onClick={() => startSignOutUser()}
               icon={<IoLogOutOutline size="35px" color="gray" />}
             />
           </Tooltip>

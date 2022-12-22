@@ -22,25 +22,19 @@ const entrySlice = createSlice({
         payload,
       }: PayloadAction<{
         _id: string;
-        status: EntryStatus;
+        status?: EntryStatus;
         description?: string;
       }>
     ) => {
       const entryFound = state.find(entry => entry._id === payload._id);
       if (entryFound) {
-        entryFound.status = payload.status;
-        entryFound.description = payload.description || entryFound.description;
+        entryFound.status = payload.status ?? entryFound.status;
+        entryFound.description = payload.description ?? entryFound.description;
       }
-    },
-    updateStatus: (state, { payload }: PayloadAction<string>) => {
-      const entryFound = state.find(entry => entry._id === payload);
-      if (!entryFound) return;
-      entryFound.status = 'Completed';
     },
   },
 });
 
-export const { createEntry, deleteEntry, updateStatus, updateEntry } =
-  entrySlice.actions;
+export const { createEntry, deleteEntry, updateEntry } = entrySlice.actions;
 
 export default entrySlice.reducer;

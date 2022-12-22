@@ -82,7 +82,7 @@ export const EntryCard: FC<Props> = ({ entry }) => {
                 focusBorderColor="transparent"
                 _light={{ color: 'blackAlpha.800' }}
                 _dark={{ color: 'blackAlpha.800' }}
-                placeholder="Escribe algo"
+                placeholder="Escribe algo..."
                 _placeholder={{ color: 'blackAlpha.500' }}
                 autoFocus={true}
               />

@@ -1,10 +1,8 @@
-import { ChevronDownIcon } from '@chakra-ui/icons';
+import React from 'react';
 import {
   Avatar,
-  Button,
   ButtonGroup,
   Flex,
-  IconButton,
   Menu,
   MenuButton,
   MenuDivider,
@@ -16,8 +14,10 @@ import {
   useColorMode,
 } from '@chakra-ui/react';
 import { IoLogOutOutline, IoMoon, IoSunnyOutline } from 'react-icons/io5';
+import { useAuthStore } from '../../../hooks';
 
 export const MenuMobile = () => {
+  const { photoURL, email, displayName, startSignOutUser } = useAuthStore();
   const { colorMode, toggleColorMode } = useColorMode();
 
   return (
@@ -29,14 +29,18 @@ export const MenuMobile = () => {
     >
       <Menu>
         <ButtonGroup as={MenuButton}>
-          <Tooltip label={'Santiago Pacini'}>
-            <Avatar referrerPolicy="no-referrer" name={'santiago'} src={''} />
+          <Tooltip label={displayName}>
+            <Avatar
+              referrerPolicy="no-referrer"
+              name={displayName!}
+              src={photoURL!}
+            />
           </Tooltip>
         </ButtonGroup>
         <MenuList>
           <MenuGroup title="Profile">
             <Text pl={3} fontWeight="semibold">
-              {'santiago pacini'}
+              {displayName}
             </Text>
             <Text
               pl={3}
@@ -45,7 +49,7 @@ export const MenuMobile = () => {
               fontSize="sm"
               fontWeight="normal"
             >
-              {'pacinisanti@gmail.com'}
+              {email}
             </Text>
           </MenuGroup>
           <MenuDivider />
@@ -61,7 +65,7 @@ export const MenuMobile = () => {
                 </Flex>
               )}
             </MenuItem>
-            <MenuItem>
+            <MenuItem onClick={() => startSignOutUser()}>
               <Flex display="flex" alignItems="center" gap={2} w="full">
                 <IoLogOutOutline color="gray" />
                 Salir

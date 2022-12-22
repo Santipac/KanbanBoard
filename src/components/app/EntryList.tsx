@@ -1,6 +1,7 @@
 import { Stack, useColorModeValue } from '@chakra-ui/react';
 import React, { DragEvent, FC, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useEntryStore } from '../../hooks';
 import { EntryStatus } from '../../interfaces';
 import { RootState } from '../../store';
 import { updateEntry } from '../../store/entries/entrySlice';
@@ -13,6 +14,7 @@ interface Props {
 
 export const EntryList: FC<Props> = ({ status }) => {
   const { isDragging } = useSelector((state: RootState) => state.ui);
+  const { startUpdatingStatus } = useEntryStore();
   const entries = useSelector((state: RootState) => state.entries);
   const dispatch = useDispatch();
   const entriesByStatus = useMemo(
@@ -25,7 +27,7 @@ export const EntryList: FC<Props> = ({ status }) => {
   };
   const onDropEntry = (event: DragEvent<HTMLDivElement>) => {
     const id = event.dataTransfer.getData('text');
-    dispatch(updateEntry({ _id: id, status }));
+    startUpdatingStatus({ _id: id, status });
     dispatch(endDragging());
   };
   return (

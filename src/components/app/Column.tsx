@@ -1,5 +1,4 @@
 import React from 'react';
-import { v4 as uuid } from 'uuid';
 import { FC } from 'react';
 import { EntryStatus } from '../../interfaces';
 import { EntryList } from './EntryList';
@@ -12,8 +11,7 @@ import {
 } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
 import { useDispatch } from 'react-redux';
-import { createEntry } from '../../store/entries/entrySlice';
-import { pickChakraRandomColor } from '../../helpers';
+import { useEntryStore } from '../../hooks';
 
 interface Props {
   color: string;
@@ -22,6 +20,7 @@ interface Props {
 
 export const Column: FC<Props> = ({ color, status }) => {
   const dispatch = useDispatch();
+  const { startCreatingTasks } = useEntryStore();
   return (
     <Box>
       <Heading fontSize="md" mb={4} letterSpacing="wide">
@@ -40,17 +39,7 @@ export const Column: FC<Props> = ({ color, status }) => {
         colorScheme="black"
         aria-label="add-task"
         icon={<AddIcon />}
-        onClick={() =>
-          dispatch(
-            createEntry({
-              _id: uuid(),
-              status,
-              color: pickChakraRandomColor('.400'),
-              description: '',
-              createdAt: Date.now(),
-            })
-          )
-        }
+        onClick={() => startCreatingTasks(status)}
       />
 
       <EntryList status={status} />
