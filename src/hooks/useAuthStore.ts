@@ -15,6 +15,7 @@ import { checkingUser, loginUser, logoutUser } from '../store/user/userSlice';
 import { UserStatus } from '../types/enums';
 import { ILogin, IRegister } from '../types/models';
 import toast from 'react-hot-toast';
+import { ErrorData } from '@firebase/util';
 
 export const useAuthStore = () => {
   const { status, displayName, photoURL, uid, email } = useSelector(
@@ -40,7 +41,7 @@ export const useAuthStore = () => {
       );
       navigate('/');
     } catch (error) {
-      toast.error('No debe cerrar la pestaña, para poder ingresar');
+      toast.error('No debe cerrar la pestaña');
     }
   };
   const startRegisterUser = async ({

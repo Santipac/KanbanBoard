@@ -61,6 +61,8 @@ export const useEntryStore = () => {
     status: EntryStatus;
   }) => {
     try {
+      const entryFound = entries.find(entry => entry.id === id);
+      if (entryFound?.status === status) return;
       const entryRef = doc(FirebaseDB, `${uid}/todo/entries/${id}`);
       await updateDoc(entryRef, {
         status,

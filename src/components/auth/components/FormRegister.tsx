@@ -153,6 +153,7 @@ export const FormRegister = () => {
                 _hover={{
                   bg: 'blue.500',
                 }}
+                fontWeight="normal"
               >
                 Registrarse
               </Button>

@@ -107,12 +107,13 @@ export const FormLogin = () => {
                 bg: 'blue.500',
               }}
               mt={4}
+              fontWeight="normal"
             >
               Ingresar
             </Button>
             <Flex alignItems="center" gap={2}>
               <Divider />
-              <Text fontWeight="semibold" color="gray.300">
+              <Text fontWeight="normal" color="gray.300">
                 O
               </Text>
               <Divider />

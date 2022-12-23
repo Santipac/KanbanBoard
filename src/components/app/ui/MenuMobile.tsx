@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   Avatar,
+  Box,
   ButtonGroup,
   Flex,
   Menu,
@@ -40,7 +41,7 @@ export const MenuMobile = () => {
         </ButtonGroup>
         <MenuList>
           <MenuGroup title="Profile">
-            <Text pl={3} fontWeight="semibold">
+            <Text pl={3} fontWeight="normal">
               {displayName}
             </Text>
             <Text
