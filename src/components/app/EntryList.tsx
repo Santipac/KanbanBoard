@@ -2,9 +2,9 @@ import { Stack, useColorModeValue } from '@chakra-ui/react';
 import React, { DragEvent, FC, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEntryStore } from '../../hooks';
-import { EntryStatus } from '../../interfaces';
 import { RootState } from '../../store';
 import { endDragging } from '../../store/ui/uiSlice';
+import { EntryStatus } from '../../types/models';
 import { EntryCard } from './EntryCard';
 
 interface Props {

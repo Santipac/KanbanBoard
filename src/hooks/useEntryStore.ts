@@ -12,7 +12,7 @@ import { v4 as uuid } from 'uuid';
 import { FirebaseDB } from '../firebase/config';
 import { loadNotes } from '../firebase/providers';
 import { pickChakraRandomColor } from '../helpers';
-import { Entry, EntryStatus } from '../interfaces';
+
 import { RootState } from '../store';
 import {
   clearEntries,
@@ -21,6 +21,7 @@ import {
   setPrevEntries,
   updateEntry,
 } from '../store/entries/entrySlice';
+import { Entry, EntryStatus } from '../types/models';
 import { useAuthStore } from './useAuthStore';
 
 export const useEntryStore = () => {

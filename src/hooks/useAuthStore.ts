@@ -6,8 +6,7 @@ import {
   signOut,
   updateProfile,
 } from 'firebase/auth';
-import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { FirebaseAuth } from '../firebase/config';
 import { RootState } from '../store';
@@ -15,7 +14,6 @@ import { checkingUser, loginUser, logoutUser } from '../store/user/userSlice';
 import { UserStatus } from '../types/enums';
 import { ILogin, IRegister } from '../types/models';
 import toast from 'react-hot-toast';
-import { ErrorData } from '@firebase/util';
 
 export const useAuthStore = () => {
   const { status, displayName, photoURL, uid, email } = useSelector(
@@ -70,7 +68,12 @@ export const useAuthStore = () => {
       );
       navigate('/');
     } catch (error) {
-      toast.error(error.message.split(' ')[2]);
+      if (error instanceof Error) {
+        // ✅ TypeScript knows err is Error
+        toast.error(error.message.split(' ')[2]);
+      } else {
+        toast.error('Error inesperado.');
+      }
     }
   };
 
@@ -94,7 +97,12 @@ export const useAuthStore = () => {
       );
       navigate('/');
     } catch (error) {
-      toast.error(error.message.split(' ')[2]);
+      if (error instanceof Error) {
+        // ✅ TypeScript knows err is Error
+        toast.error(error.message.split(' ')[2]);
+      } else {
+        toast.error('Error inesperado.');
+      }
     }
   };
 
@@ -105,7 +113,12 @@ export const useAuthStore = () => {
       dispatch(logoutUser());
       navigate('/auth');
     } catch (error) {
-      toast.error(error.message.split(' ')[2]);
+      if (error instanceof Error) {
+        // ✅ TypeScript knows err is Error
+        toast.error(error.message.split(' ')[2]);
+      } else {
+        toast.error('Error inesperado.');
+      }
     }
   };
   return {

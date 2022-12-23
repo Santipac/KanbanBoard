@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Entry, EntryStatus } from '../../interfaces';
+import { Entry, EntryStatus } from '../../types/models';
 
 const initialState: Entry[] = [];
 

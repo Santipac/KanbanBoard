@@ -4,10 +4,10 @@ import { Box, Flex, IconButton, Textarea } from '@chakra-ui/react';
 import { Formik } from 'formik';
 import { DragEvent, FC } from 'react';
 import { useDispatch } from 'react-redux';
-import { Entry } from '../../interfaces';
 import { endDragging, startDragging } from '../../store/ui/uiSlice';
 import { motion as m, PanInfo } from 'framer-motion';
 import { useEntryStore } from '../../hooks/useEntryStore';
+import { Entry } from '../../types/models';
 
 interface Props {
   entry: Entry;

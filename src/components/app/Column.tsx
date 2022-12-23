@@ -1,6 +1,5 @@
 import React from 'react';
 import { FC } from 'react';
-import { EntryStatus } from '../../interfaces';
 import { EntryList } from './EntryList';
 import {
   Badge,
@@ -12,6 +11,7 @@ import {
 import { AddIcon } from '@chakra-ui/icons';
 import { useDispatch } from 'react-redux';
 import { useEntryStore } from '../../hooks';
+import { EntryStatus } from '../../types/models';
 
 interface Props {
   color: string;
