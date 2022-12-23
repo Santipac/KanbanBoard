@@ -1,7 +1,7 @@
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { collection, getDocs } from 'firebase/firestore/lite';
-import { Entry } from '../interfaces';
-import { IRegister } from '../types/models';
+
+import { Entry, IRegister } from '../types/models';
 import { FirebaseAuth, FirebaseDB } from './config';
 
 export const registerWithEmailPassword = async ({
