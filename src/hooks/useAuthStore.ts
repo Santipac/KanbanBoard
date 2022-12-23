@@ -14,6 +14,7 @@ import { RootState } from '../store';
 import { checkingUser, loginUser, logoutUser } from '../store/user/userSlice';
 import { UserStatus } from '../types/enums';
 import { ILogin, IRegister } from '../types/models';
+import toast from 'react-hot-toast';
 
 export const useAuthStore = () => {
   const { status, displayName, photoURL, uid, email } = useSelector(
@@ -39,7 +40,7 @@ export const useAuthStore = () => {
       );
       navigate('/');
     } catch (error) {
-      console.log(error);
+      toast.error('No debe cerrar la pestaña, para poder ingresar');
     }
   };
   const startRegisterUser = async ({
@@ -68,7 +69,7 @@ export const useAuthStore = () => {
       );
       navigate('/');
     } catch (error) {
-      console.log(error);
+      toast.error(error.message.split(' ')[2]);
     }
   };
 
@@ -92,7 +93,7 @@ export const useAuthStore = () => {
       );
       navigate('/');
     } catch (error) {
-      console.log(error);
+      toast.error(error.message.split(' ')[2]);
     }
   };
 
@@ -103,7 +104,7 @@ export const useAuthStore = () => {
       dispatch(logoutUser());
       navigate('/auth');
     } catch (error) {
-      console.log(error);
+      toast.error(error.message.split(' ')[2]);
     }
   };
   return {

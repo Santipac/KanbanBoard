@@ -1,5 +1,6 @@
 import { Box, useColorModeValue } from '@chakra-ui/react';
-import { FC } from 'react';
+import React, { FC } from 'react';
+import { Toaster } from 'react-hot-toast';
 interface Props {
   children: JSX.Element | JSX.Element[];
 }
@@ -26,6 +27,7 @@ export const AuthLayout: FC<Props> = ({ children }) => {
         _light={{ backgroundColor: 'white' }}
         _dark={{ backgroundColor: 'blackAlpha.400' }}
       >
+        <Toaster />
         {children}
       </Box>
     </Box>

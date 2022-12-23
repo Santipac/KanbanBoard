@@ -5,6 +5,7 @@ import {
   setDoc,
   updateDoc,
 } from 'firebase/firestore/lite';
+import { toast } from 'react-hot-toast';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { v4 as uuid } from 'uuid';
@@ -47,6 +48,7 @@ export const useEntryStore = () => {
       await setDoc(newDoc, initialEntry);
       dispatch(createEntry(initialEntry));
     } catch (error) {
+      toast.error('No se pudieron aplicar los cambios.');
       console.log(error);
     }
   };
@@ -58,11 +60,16 @@ export const useEntryStore = () => {
     id: string;
     status: EntryStatus;
   }) => {
-    const entryRef = doc(FirebaseDB, `${uid}/todo/entries/${id}`);
-    await updateDoc(entryRef, {
-      status,
-    });
-    dispatch(updateEntry({ id, status }));
+    try {
+      const entryRef = doc(FirebaseDB, `${uid}/todo/entries/${id}`);
+      await updateDoc(entryRef, {
+        status,
+      });
+      toast.success('Cambios guardados');
+      dispatch(updateEntry({ id, status }));
+    } catch (error) {
+      toast.error('No se pudieron aplicar los cambios.');
+    }
   };
 
   const startUpdatingDescription = async ({
@@ -77,9 +84,12 @@ export const useEntryStore = () => {
       await updateDoc(entryRef, {
         description,
       });
+      toast.success('Tarjeta Actualizada correctamente!');
+
       dispatch(updateEntry({ id, description }));
     } catch (error) {
       console.log(error);
+      toast.error('No se pudieron aplicar los cambios.');
     }
   };
 
@@ -87,8 +97,10 @@ export const useEntryStore = () => {
     try {
       dispatch(deleteEntry(id));
       await deleteDoc(doc(FirebaseDB, `${uid}/todo/entries/${id}`));
+      toast.success('Tarjeta eliminada correctamente!');
     } catch (error) {
       console.log(error);
+      toast.error('No se pudo eliminar la tarjeta.');
     }
   };
   const startCleanEntries = () => {
