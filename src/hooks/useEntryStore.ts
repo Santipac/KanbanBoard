@@ -1,4 +1,10 @@
-import { collection, deleteDoc, doc, setDoc } from 'firebase/firestore/lite';
+import {
+  collection,
+  deleteDoc,
+  doc,
+  setDoc,
+  updateDoc,
+} from 'firebase/firestore/lite';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { v4 as uuid } from 'uuid';
@@ -8,6 +14,7 @@ import { pickChakraRandomColor } from '../helpers';
 import { Entry, EntryStatus } from '../interfaces';
 import { RootState } from '../store';
 import {
+  clearEntries,
   createEntry,
   deleteEntry,
   setPrevEntries,
@@ -27,19 +34,17 @@ export const useEntryStore = () => {
   };
 
   const startCreatingEntry = async (status: EntryStatus) => {
-    const initialEntry = {
-      id: uuid(),
-      status,
-      color: pickChakraRandomColor('.400'),
-      description: '',
-      createdAt: Date.now(),
-    };
-
     try {
       const newDoc = doc(collection(FirebaseDB, `${uid}/todo/entries`));
-      await setDoc(newDoc, initialEntry);
-      initialEntry.id = newDoc.id;
 
+      const initialEntry = {
+        id: newDoc.id,
+        status,
+        color: pickChakraRandomColor('.400'),
+        description: '',
+        createdAt: Date.now(),
+      };
+      await setDoc(newDoc, initialEntry);
       dispatch(createEntry(initialEntry));
     } catch (error) {
       console.log(error);
@@ -53,11 +58,29 @@ export const useEntryStore = () => {
     id: string;
     status: EntryStatus;
   }) => {
+    const entryRef = doc(FirebaseDB, `${uid}/todo/entries/${id}`);
+    await updateDoc(entryRef, {
+      status,
+    });
     dispatch(updateEntry({ id, status }));
   };
 
-  const startUpdatingDescription = async ({ id, description }: Entry) => {
-    dispatch(updateEntry({ id, description }));
+  const startUpdatingDescription = async ({
+    id,
+    description,
+  }: {
+    id: string;
+    description: string;
+  }) => {
+    try {
+      const entryRef = doc(FirebaseDB, `${uid}/todo/entries/${id}`);
+      await updateDoc(entryRef, {
+        description,
+      });
+      dispatch(updateEntry({ id, description }));
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const startDeletingEntry = async (id: string) => {
@@ -68,7 +91,9 @@ export const useEntryStore = () => {
       console.log(error);
     }
   };
-
+  const startCleanEntries = () => {
+    dispatch(clearEntries());
+  };
   return {
     entries,
     startCreatingEntry,
@@ -76,5 +101,6 @@ export const useEntryStore = () => {
     startUpdatingDescription,
     startLoadingEntry,
     startDeletingEntry,
+    startCleanEntries,
   };
 };

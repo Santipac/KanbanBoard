@@ -38,10 +38,18 @@ const entrySlice = createSlice({
         state.splice(state.indexOf(entryFound), 1);
       }
     },
+    clearEntries: state => {
+      state.length = 0;
+    },
   },
 });
 
-export const { createEntry, deleteEntry, updateEntry, setPrevEntries } =
-  entrySlice.actions;
+export const {
+  createEntry,
+  deleteEntry,
+  updateEntry,
+  setPrevEntries,
+  clearEntries,
+} = entrySlice.actions;
 
 export default entrySlice.reducer;

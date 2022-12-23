@@ -15,7 +15,7 @@ interface Props {
 
 export const EntryCard: FC<Props> = ({ entry }) => {
   const dispatch = useDispatch();
-  const { startDeletingEntry } = useEntryStore();
+  const { startUpdatingDescription, startDeletingEntry } = useEntryStore();
   const onDragStart = (event: DragEvent<HTMLDivElement>) => {
     event.dataTransfer.setData('text', entry.id);
     dispatch(startDragging());
@@ -65,12 +65,19 @@ export const EntryCard: FC<Props> = ({ entry }) => {
               console.log(values);
             }}
           >
-            {({ handleBlur, handleChange, values }) => (
+            {({ handleBlur, handleChange, values, setSubmitting, dirty }) => (
               <Textarea
                 name="description"
                 onChange={handleChange}
-                onBlur={event => {
+                onBlur={async event => {
                   handleBlur(event);
+                  if (!dirty) return;
+                  setSubmitting(true);
+                  startUpdatingDescription({
+                    id: entry.id,
+                    description: values.description,
+                  });
+                  setSubmitting(false);
                 }}
                 defaultValue={entry.description}
                 fontWeight="semibold"

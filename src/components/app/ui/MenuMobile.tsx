@@ -14,11 +14,12 @@ import {
   useColorMode,
 } from '@chakra-ui/react';
 import { IoLogOutOutline, IoMoon, IoSunnyOutline } from 'react-icons/io5';
-import { useAuthStore } from '../../../hooks';
+import { useAuthStore, useEntryStore } from '../../../hooks';
 
 export const MenuMobile = () => {
   const { photoURL, email, displayName, startSignOutUser } = useAuthStore();
   const { colorMode, toggleColorMode } = useColorMode();
+  const { startCleanEntries } = useEntryStore();
 
   return (
     <Flex
@@ -65,7 +66,12 @@ export const MenuMobile = () => {
                 </Flex>
               )}
             </MenuItem>
-            <MenuItem onClick={() => startSignOutUser()}>
+            <MenuItem
+              onClick={() => {
+                startCleanEntries();
+                startSignOutUser();
+              }}
+            >
               <Flex display="flex" alignItems="center" gap={2} w="full">
                 <IoLogOutOutline color="gray" />
                 Salir

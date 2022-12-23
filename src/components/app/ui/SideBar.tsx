@@ -8,10 +8,11 @@ import {
   useColorMode,
 } from '@chakra-ui/react';
 import { FC } from 'react';
-import { useAuthStore } from '../../../hooks';
+import { useAuthStore, useEntryStore } from '../../../hooks';
 import { IoLogOutOutline, IoMoon, IoSunnyOutline } from 'react-icons/io5';
 
 export const SideBar: FC = () => {
+  const { startCleanEntries } = useEntryStore();
   const { displayName, photoURL, email, startSignOutUser } = useAuthStore();
   const { colorMode, toggleColorMode } = useColorMode();
   return (
@@ -75,7 +76,10 @@ export const SideBar: FC = () => {
               _hover={{ bgColor: 'transparent' }}
               _focus={{ bgColor: 'transparent' }}
               aria-label="Logout button"
-              onClick={() => startSignOutUser()}
+              onClick={() => {
+                startCleanEntries();
+                startSignOutUser();
+              }}
               icon={<IoLogOutOutline size="35px" color="gray" />}
             />
           </Tooltip>
